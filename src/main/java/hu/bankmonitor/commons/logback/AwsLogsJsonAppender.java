@@ -4,7 +4,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.internal.StaticCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
@@ -84,7 +84,7 @@ public class AwsLogsJsonAppender extends AppenderBase<ILoggingEvent> {
 	private AWSCredentialsProvider getCredentialsProvider() {
 
 		if (StringUtils.isNullOrEmpty(awsAccessKey) || StringUtils.isNullOrEmpty(awsSecretKey)) {
-			return new InstanceProfileCredentialsProvider();
+			return new DefaultAWSCredentialsProviderChain();
 		}
 
 		return new StaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey));
